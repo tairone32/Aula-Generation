@@ -21,7 +21,7 @@ public class PostagemController {
 	
 	@PutMapping
 	public ResponseEntity<Postagem> getatualize(@RequestBody Postagem Atualizacao){
-		return
+		return null;
 	}
 	
 	
