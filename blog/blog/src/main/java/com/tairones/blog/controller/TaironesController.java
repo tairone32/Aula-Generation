@@ -1,7 +1,7 @@
 package com.tairones.blog.controller;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +29,17 @@ public class TaironesController {
 	}
 		@GetMapping("/{id}")
 		public ResponseEntity<TaironesLive> getById(@PathVariable long id){
-			Optional<TaironesLive> live = repository.findById(id);
+			/*Optional<TaironesLive> live = repository.findById(id);
 			
 			if(live.isPresent())
 				return ResponseEntity.ok(live.get());
 			
-		return ResponseEntity.badRequest().build();
+		return ResponseEntity.badRequest().build();  */
+			return repository.findById(id).map(resp -> ResponseEntity.ok(resp)).orElse(ResponseEntity.badRequest().build());
 	}
+		
+		@GetMapping("/nome/{titulo}")
+		public ResponseEntity<List<TaironesLive>> getById(@PathVariable String titulo){
+			return ResponseEntity.ok(repository.findAllByTituloContainingIgnoreCase(titulo));
+		}
 }
