@@ -2,7 +2,7 @@ package com.blog.blogpessoal.model;
 
 import java.util.Date;
 
-import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,25 +10,23 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+
 @Entity
-@Table(name="tb_postagem")
+@Table(name="postagem")
 public class Postagem {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="ID")
-	private long postagemID;
+	private long id;
 	
-	@NotBlank
+	@NotNull
 	@Size(min=1,max=255)
-	private String conteudo;
+	private String texto;
 	
-	@Max(50)
+	@Size(min=3,max=100)
 	@NotNull
 	private String titulo;
 	
@@ -36,19 +34,19 @@ public class Postagem {
 	private Date data = new java.sql.Date(System.currentTimeMillis());
 	
 	public long getPostagemID() {
-		return postagemID;
+		return id;
 	}
 
-	public void setPostagemID(long postagemID) {
-		this.postagemID = postagemID;
+	public void setPostagemID(long id) {
+		this.id = id;
 	}
 
 	public String getConteudo() {
-		return conteudo;
+		return texto;
 	}
 
-	public void setConteudo(String conteudo) {
-		this.conteudo = conteudo;
+	public void setConteudo(String texto) {
+		this.texto = texto;
 	}
 
 	public String getTitulo() {

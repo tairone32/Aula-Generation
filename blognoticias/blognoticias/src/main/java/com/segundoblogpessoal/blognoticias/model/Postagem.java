@@ -7,15 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 
-@Entity /* indica  que a classe vai ser uma entidade do jpa Hibernate*/
-@Table (name = "postagem")  /* indica que esta entidade dentro do banco de dados vai virar uma tabela */
+@Entity /*cria a sua tabela*/
+@Table (name = "postagem")  /* da o nome para sua tabela */
 public class Postagem {
 	
 	@Id 
@@ -34,6 +36,11 @@ public class Postagem {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date = new java.sql.Date(System.currentTimeMillis()); /* sempre importar java.util.Date */
 																		/* sempre que passar um dado pela classe capitura o horario exato*/
+	@ManyToOne  /*muitos para um*/
+	@JsonIgnoreProperties("postagem")  /*quando chegar em postagem para de apresentar informação*/
+	private Tema tema;
+	
+
 	public long getId() {
 		return id;
 	}
@@ -64,6 +71,13 @@ public class Postagem {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	public Tema getTema() {
+		return tema;
+	}
+
+	public void setTema(Tema tema) {
+		this.tema = tema;
 	}
 
 }
