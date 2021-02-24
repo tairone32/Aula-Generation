@@ -15,37 +15,41 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.springboot.model.User;
-import br.com.springboot.repository.UserRepository;
+import br.com.springboot.model.Tema;
+import br.com.springboot.repository.TemaRepository;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/users")
-public class UserController {
+@RequestMapping("/tema")
+public class TemaController {
 
 	@Autowired
-	private UserRepository repository;
+	private TemaRepository repository;
 
 	@GetMapping
-	public ResponseEntity<List<User>> getAll() {
+	public ResponseEntity<List<Tema>> getAll() {
 		return ResponseEntity.ok(repository.findAll());
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<User> getById(@PathVariable long id) {
+	public ResponseEntity<Tema> getById(@PathVariable long id) {
 		return repository.findById(id).map(resp -> ResponseEntity.ok(resp)).orElse(ResponseEntity.notFound().build());
 	}
 
+	@GetMapping("/name/{name}")
+	public ResponseEntity<List<Tema>> getByName(@PathVariable String name) {
+		return ResponseEntity.ok(repository.findAllByDescricaoContainingIgnoreCase(name));
+	}
+
 	@PostMapping
-	public ResponseEntity<User> post(@RequestBody User user) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(user));
+	public ResponseEntity<Tema> post(@RequestBody Tema tema) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(tema));
 	}
-
 	@PutMapping
-	public ResponseEntity<User> put(@RequestBody User user) {
-		return ResponseEntity.status(HttpStatus.OK).body(repository.save(user));
+	public ResponseEntity<Tema> put(@RequestBody Tema tema) {
+		return ResponseEntity.ok(repository.save(tema));
 	}
-
+	
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable long id) {
 		repository.deleteById(id);
